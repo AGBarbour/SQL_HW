@@ -229,5 +229,24 @@ LIMIT 5;
 -- way of viewing the Top five genres by gross revenue. Use the solution 
 -- from the problem above to create a view. If you haven't solved 7h, you
 --  can substitute another query to create a view.
+CREATE VIEW Highest_Grossing_Genres AS
+SELECT c.name, SUM(p.amount) AS 'Gross Revenue'
+FROM category c
+JOIN film_category f
+ON c.category_id=f.category_id
+JOIN inventory i
+ON f.film_id=i.film_id
+JOIN rental r
+ON i.inventory_id=r.rental_id
+JOIN payment p
+ON r.rental_id=p.rental_id
+GROUP BY c.name
+ORDER BY `Gross Revenue` DESC
+LIMIT 5;
 
+-- 8b. How would you display the view that you created in 8a?
+SELECT * FROM highest_grossing_genres;
 
+-- 8c. You find that you no longer need the view `top_five_genres`. 
+-- Write a query to delete it.
+DROP VIEW highest_grossing_genres;
